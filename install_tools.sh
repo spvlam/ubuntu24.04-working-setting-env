@@ -94,3 +94,17 @@ echo "Check the public ssh key in ~/.ssh/ folder and copy to the remote server"
 cat $(ls ~/.ssh/*.pub | tail -n 1)
 cd ~
 
+#python installation
+## install anaconda
+if which conda;then 
+	echo "Anaconda has been installed. skipping install anaconda"
+else
+	cd ~/Downloads
+	wget https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-x86_64.sh
+	bash ./Anaconda3-2024.10-1-Linux-x86_64.sh
+	source ~/.bashrc
+	export PATH="$HOME/anaconda3/bin:$PATH"
+fi 
+conda --version
+cd ~
+
