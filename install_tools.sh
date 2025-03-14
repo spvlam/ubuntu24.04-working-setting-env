@@ -96,15 +96,53 @@ cd ~
 
 #python installation
 ## install anaconda
-if which conda;then 
+if command -v conda;then 
 	echo "Anaconda has been installed. skipping install anaconda"
 else
-	cd ~/Downloads
+	echo "Start download anaconda"
 	wget https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-x86_64.sh
 	bash ./Anaconda3-2024.10-1-Linux-x86_64.sh
 	source ~/.bashrc
 	export PATH="$HOME/anaconda3/bin:$PATH"
-fi 
+fi
 conda --version
 cd ~
+
+#aws installation tool
+if which aws;then
+	echo "AWS CLI has been installation, skipping !!! "
+else
+	cd ~/Downloads
+	echo "Start download awscli"
+	curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+	unzip awscliv2.zip
+	sudo ./aws/install
+fi
+aws --version
+cd ~
+
+#install terraform
+if which terraform;then
+	echo "Terraform has been installed, skipping !!!"
+else
+	cd ~/Download
+	echo "Start downloading terraform binary"
+	sudo apt-get update && sudo apt-get install -y gnupg software-properties-common
+	wget -O- https://apt.releases.hashicorp.com/gpg | \
+	gpg --dearmor | \
+	sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null
+	gpg --no-default-keyring \
+	--keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg \
+	--fingerprint
+	echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
+	https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
+	sudo tee /etc/apt/sources.list.d/hashicorp.list
+	sudo apt update
+	sudo apt-get install terraform
+fi 
+terraform --version
+touch ~/.bashrc
+terraform -install-autocomplete
+
+
 
