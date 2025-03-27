@@ -1,4 +1,6 @@
 #!/bin/bash
+
+#run this bash script under normal user, not root user
 sudo apt update
 sudo apt install curl
 
@@ -146,3 +148,11 @@ terraform -install-autocomplete
 
 
 
+#install gitlab-runner
+if which gitlab-runner;then 
+	echo "Gitlab runner has been installed before, just skipping the installation"
+else
+	curl -L "https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh" | sudo bash
+	sudo apt install gitlab-runner
+fi
+gitlab-runner --version
